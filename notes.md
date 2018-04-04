@@ -8,7 +8,7 @@
 # 立即执行函数this指针
 ```
 var myObject = {
-foo: "bar",
+    foo: "bar",
     func: function() {
         var self = this;
         console.log(this.foo);   // bar
@@ -61,4 +61,31 @@ function maopao(arr){
   return arr;
 }
 ```
+# JS全局函数
+* decodeURI():解析编码某个URI
+* decodeComponent():解码一个编码的URI组件
+* ecodeURI():将字符串编码为URI
+* ecodeComponent():将字符串解析为URI组件
+* escape()：对字符串进行编码
+* eval():参数为一个字符串，将字符串转化为js代码执行
+* getClass()	返回一个 JavaObject 的 JavaClass。
+* isFinite()	检查某个值是否为有穷大的数。
+* isNaN()	检查某个值是否是数字。
+* Number()	把对象的值转换为数字。
+* parseFloat()	解析一个字符串并返回一个浮点数。
+* parseInt()	解析一个字符串并返回一个整数。
+* String()	把对象的值转换为字符串。
+* unescape()	对由 escape() 编码的字符串进行解码。
+# 字符串'+'和加法符号'+'
+字符串连接符'+'优先级高于加法运算符'+'
+```
+console.log(1+ "2"+"2");
+console.log(1+ +"2"+"2");
+console.log("A"- "B"+"2");
+console.log("A"- "B"+2);
+```
+* 遇到'+'前后有字符串的，是做字符串连接，所以第一个是‘122’
+* 第二个'+'，即+'2'是一元操作符，将字符串'2'变为数字，所以单价于3+'2',结果为'32'
+* 第三个，在遇到'-'时，先将转化为数值，结果不能转化，故为NAN，再进行字符串连接运算，结果为'NAN2'
+* 第四个，为NAN
 
