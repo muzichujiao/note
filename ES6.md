@@ -79,7 +79,7 @@ function addAge(name){ retrun console.log('My age is '+ this.age); }
 ```
 sayName是公有方法，内部调用了addAge方法，使得addAge实际上是当前模块的私有方法。
 * 还有一种就是利用Symbol值得唯一性将私有方法的名字命名为一个Symbol值
-* this默认指向类的实例
+* **this** 默认指向类的实例
 ### 静态方法(static)
 * 静态方法：不必创建实例就可以调用，一般通过类名进行调用，静态方法只能调用静态变量。所以类中定义的方法都会被实例继承，但是加上static的方法不会被实例继承，而是直接通过类调用。
 ```
