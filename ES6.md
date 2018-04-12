@@ -80,4 +80,41 @@ function addAge(name){ retrun console.log('My age is '+ this.age); }
 sayName是公有方法，内部调用了addAge方法，使得addAge实际上是当前模块的私有方法。
 * 还有一种就是利用Symbol值得唯一性将私有方法的名字命名为一个Symbol值
 * this默认指向类的实例
-
+### 静态方法(static)
+* 静态方法：不必创建实例就可以调用，一般通过类名进行调用，静态方法只能调用静态变量。所以类中定义的方法都会被实例继承，但是加上static的方法不会被实例继承，而是直接通过类调用。
+```
+class Person{
+	static sayName(){
+		console.log('xiaomei');
+	}
+}
+Person.sayName();  //xiaomei
+var p = new Person();
+p.sayName(); // TypeError
+```
+由于是静态方法所以可以通过类名来调用，而不是通过实例来调用。
+* 父类的静态方法可以被子类继承
+* 静态方法也可以从super对象上调用
+```
+class Animal{
+  static sayName(){
+    console.log('hello');
+  }     
+}
+class Cat extendsAnimal(){
+  static sayName(){
+    super.sayName();
+  }
+}
+```
+## Class的继承
+### 定义
+* super() 表示父类的构造函数，子类没有自己的this对象，只能继承父类的this对象，如果不调用super就得不到this对象
+* ES6继承与之前继承的不同：
+1. ES6的继承实质是：先创建父类的实例对象this，然后再用子类的构造函数修改this
+2. ES5的继承实质：构建子类的实例对象this，然后将父类的方法添加到上面。
+* 子类的构造函数中只有调用super之后才能使用this关键字
+### 类的prototype属性和__proto__属性
+Class存在着这两个属性
+* 子类的__proto__属性表示构造函数的继承，总是指向父类
+* 子类的prototype属性的__proto__属性表示方法的基础，总是指向父类的prototype属性
