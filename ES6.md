@@ -1,5 +1,106 @@
 # ES6学习笔记
 
+## 异步编程的解决方法
+### 回调函数
+传统的异步编程解决方法
+### 事件监听
+### 发布/订阅
+### Promise
+#### 介绍
+* Promise对象像一个容器放着未来才会结束的事件。
+* Promise对象的状态不受外界的影响，只有异步操作的结果能够决定状态的变化。有三种状态：进行中、已成功、已失败
+* 一旦状态变化，就不会再变
+#### 基本用法
+```
+const p = new Promise(function(resolve,reject){
+	//... ...
+	if(成功){
+		resolve(value);
+	}else{
+		reject(error);
+	}
+})
+```
+* 异步加载图片
+```
+function imgload(url){
+	return new Promise(function(resolve,reject){
+		var img = new Image();
+		img.onload = function(){
+			resolve(img);
+		}
+		img.onerror = function(){
+			reject(new Error("Can't find url."));
+		}
+		img.src = url;
+	})
+}
+
+imgload('......').then(function(value){
+	document.getElementById('root').append(value);
+})
+
+```
+* 异步AJAX
+```
+function ajaxAysn(url){
+  const promise = new Promise(function(resolve,reject){
+    const xhr = new XMLHttpRequest();
+    const handler = function() {
+      if((xhr.readyState == 4) && (xhr.status == 200)){
+        resolve(xhr.response);
+      }else{
+        reject(xhr.statusText);
+      }
+    }
+    xhr.open("GET",url);
+    xhr.onreadyStateChange = handler;
+    xhr.send();
+  })
+}
+```
+#### Promise包含的方法
+##### Promise.prototype.then()：
+* then()方法主要是为Promise实例添加状态改变的回调函数
+* 它接收两个函数为参数，第一个参数为成功时调用，第二个参数是失败时调用.
+##### Promise.prototype.catch() / Promise.prototype.finally():无论结果是成功还是失败都会执行
+#### Promise.all()
+* Promise.all([p1,p2,p3]): 参数是多个Promise实例，只有全部为成功状态，才表示成功，此时p1、p2、p3的返回值组成一个数组，传递给p的回调函数。
+* Promise.race([p1,p2,p3]): 只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。
+
+## Generator
+### 介绍
+* Generator相当于一个状态机，函数内部封装了许多状态。调用的时候返回一个遍历器对象，可以依次遍历内部的状态。
+* 调用时候并不会执行，返回一个指向内部状态的指针，当调用next()方法时，会依次遍历内部状态。
+```
+function *gen(){
+	yield 'one';
+	yield 'two;
+	return 'three';
+}
+const g = gen();
+g.next()  //{value:'one',done:false}
+g.next()  //{value:'two',done:false}
+g.next()  //{value:'three',done:true}
+g.next()  //{value:undefined,done:true}
+```
+### for...of...循环
+```
+function *num(){
+	yield 1;
+	yield 2;
+	yield 3;
+	yield 4;
+	return 5;
+}
+for(let i of num()){
+	console.log(i);
+}
+//1,2,3,4
+```
+一旦done的属性值为true，就会终止循环，因此没有输出5
+
+
 ## 模块 Module
 ### CommonJS和AMD区别
 #### CommonJS
