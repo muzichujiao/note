@@ -1,3 +1,21 @@
+## undefined && null
+### undefined
+* 表示一个空值，访问未初始化的变量、缺省的参数、不存在的属性都会返回undefined
+* 从null演变而来，null表示‘没有对象’，与c中null相同，转化为数字时为0，但是不想让值有明确的指向，因为不仅仅是对象，而且强制类型转化不应该为0.因此，定义了undefined类型，强制类型转化为**NAN**。
+* 强制类型转化为boolean为false
+### null
+* 表示“没有对象”
+* 强制类型转化为数字为0.强制类型转化为boolean为false
+### 强制类型转化
+#### 转化为boolean值Boolean()：
+ * undefined/null/NaN/0/''/false 都转化为false
+#### 转化为数字Number():
+* null为0 / undefined为NaN / false为0 / true为1 
+#### valueOf() && toString()
+* valueOf(): 返回的是对象或者数组本身，如果是一个Data类型调用，返回的是毫秒数
+* toString(): 返回的是字符串，如果是对象调用，返回的是“[object Object]”
+
+## typeOf 和 instanceOf
 # 对象序列化
 
 # 深拷贝和浅拷贝
@@ -67,8 +85,18 @@ xhr.onreadystatechange = function(){
 ```
 
 
-# js中String、Array、Math常用的方法
-## Array
+## js中String、Array、Math常用的方法
+### String
+* String.prototype.charAt(pos):获取字符串第pos位置的字符（从0开始） 例：`'abc'.charAt(1); //b`
+* String.prototype.slice(start,end?):截取字符串，从start开始(包含),到end结束(不包含)
+* String.prototype.substring(start,end?)与slice()方法相同
+* String.prototype.splite(sep):分割字符串
+* String.prototype.trim():去除字符串开头和结尾的空格
+* String.prototype.concat(str1,str2,str3,...):连接字符串
+* toLowerCase():字符串转化为小写
+* toUpperCase():字符串转化为大写
+
+### Array
 * sort(): 升序排序，调用每一项的toString()方法，比较得到的字符串
 * reverse()
 * indexOf()/lastIndexOf()
@@ -90,7 +118,7 @@ var istrue = arr.some(function(x){
 });
 console.log(istrue); // true
 ```
-## Math
+### Math
 * Math.celi(x): 向上取整
 * Math.floor(x): 向下取整
 * Math.round(x): 四舍五入
