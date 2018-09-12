@@ -1,3 +1,28 @@
+## 函数柯里化
+```
+console.log(add(1,2)(3)(4));
+function add(){
+  let sum = 0;
+  sum = [].slice.call(arguments).reduce(function(a,b){return a+b;},sum);
+  var _add = function(){
+    if(arguments.length==0){
+      return sum;
+    }else{
+      sum = [].slice.call(arguments).reduce(function(a,b){return a+b;},sum);
+      return _add;
+    }
+  };
+  _add.toString=function(){
+    return sum;
+  };
+  _add.valueOf=function(){
+    return sum;
+  }
+  return _add;
+  
+}
+```
+
 ## undefined && null
 ### undefined
 * 表示一个空值，访问未初始化的变量、缺省的参数、不存在的属性都会返回undefined
