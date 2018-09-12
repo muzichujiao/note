@@ -1,3 +1,29 @@
+## Ajax
+```
+function httpreq(method,url,is){
+  var xhr = null;
+  if(window.XMLHttpRequest){
+    xhr = new XMLHttpRequest();
+  }else if(window.ActiveeXObject){
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  if(xhr!=null){
+    xhr.open(method,url,is);
+    xhr.onreadyStateChange = function(){
+      if((xhr.readyState == 4) && ((xhr.status>=200&&xhr.status<300)||xhr.status==304)){
+        return xhr.responseText;
+      }
+      
+    };
+    xhr.send(null);
+  }
+  else{
+    console.log("不支持AJAX");
+  }
+
+}
+```
+
 ## 函数柯里化
 ```
 console.log(add(1,2)(3)(4));
