@@ -1,6 +1,67 @@
-## js全排列
-``
+## 函数节流和函数防抖
+```
+//函数节流
+function _throttle(fn, time) { 
 
+  let _self = fn, 
+      timer,  
+      firstTime = true //记录是否是第一次执行的flag
+
+  return function() { 
+    let args = arguments, //解决闭包传参问题
+        _me = this //解决上下文丢失问题
+
+    if(firstTime) { //若是第一次，则直接执行
+      _self.apply(_me, args)
+      return firstTime = false
+    }
+    if(timer) { //定时器存在，说明有事件监听器在执行，直接返回
+      return false
+    }
+
+    timer = setTimeout(function() { 
+      clearTimeout(timer)
+      timer = null
+      _self.apply(_me, args)
+    }, time || 500)
+  }
+}
+
+function _log(){
+    console.log(1)
+}
+window.onscroll = _throttle(_log,500)
+```
+```
+//函数防抖
+function _debounce(fn,wait,time){
+    var previous = null; //记录上一次运行的时间
+    var timer = null;
+
+    return function(){
+        var now = +new Date();
+
+        if(!previous) previous = now;
+        //当上一次执行的时间与当前的时间差大于设置的执行间隔时长的话，就主动执行一次
+        if(now - previous > time){
+            clearTimeout(timer);
+            fn();
+            previous = now;// 执行函数后，马上记录当前时间
+        }else{
+            clearTimeout(timer);
+            timer = setTimeout(function(){
+                fn();
+            },wait);
+        }
+    }
+}
+function _log(){
+    console.log(1)
+}
+window.onscroll = _debounce(_log,500,2000)
+```
+## js全排列
+```
 function permutation(arr){
 	if (arr.length == 1)
 		return arr;
