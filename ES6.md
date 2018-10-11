@@ -1,5 +1,63 @@
 # ES6学习笔记
 
+## let && const
+### let 
+* 全局变量不再在顶层对象上
+### const
+* 不是值不变，是地址不变，向const定义的对象中加属性时时允许的。
+
+
+## 字符串模板
+* 主要是为了可以定义多行字符串。并且可以在其中嵌入变量。
+
+## 函数扩展
+### rest参数
+* 用于获取函数的剩余参数
+* 函数的length不包括rest参数
+* arguments为类数组，不能使用数组的方法，转化为数组：Array.prototype.slice.call(arguments)
+### 箭头函数
+*注意：
+* 内部的this指向定义时的对象。
+* 不能作为构造函数，遇到new报错。
+* 不能使用arguments，可以使用rest参数代替
+* 不能使用yield命令，因为箭头函数不可以作为Generator函数。
+
+### 尾调用
+在函数的最后一步调用另一个函数。
+#### 尾调用优化
+由于尾调用时函数的最后一步，所以可以不用保存外层函数的调用帧，直接用内存函数的调用帧。
+#### 尾递归
+尾调用自身，就是尾递归。
+* 递归耗内存，需要保存成千上万的调用帧，容易发生栈溢出。对于尾递归来说，只保存一个调用帧，不会发生溢出。
+* 尾调用优化只在严格模式下才会有，普通模式下可用func.caller来监控调用帧。
+
+## 数组扩展
+### 扩展运算符
+* 将数组转化为用逗号分隔的参数序列。
+* Array.from() :将类数组转化为数组
+* Array.prototype.slice.call() :将类数组转化为数组
+
+## Async && Await
+是Generator的语法糖，是将Generator函数中\*换成async，yield换成await。
+```
+async function quits(name){
+	var val1 = await func1();
+	var val2 = await func2();
+	return result;	
+}
+//调用
+quits(name).then(function(res){
+	console.log(res);
+})
+async函数内部return语句返回的值，会成为then方法回调函数的参数。
+```
+### 与Generator不同点
+* 他是自动执行的，当调用函数时，无需调用next()函数一步一步执行，自带内置执行器
+* 返回结果是Promise对象，可以根据结果进一步操作
+
+### 注意：
+* await后面是Promise对象，运行结果可能是reject，所以把await命令放在try...catch中。只要有一个await命令返回reject，async函数就会中断执行，如果想要后面的代码继续执行，将await命令放到try'cache中。
+
 ## 异步编程的解决方法
 ### 回调函数
 传统的异步编程解决方法
@@ -236,7 +294,7 @@ sayName是公有方法，内部调用了addAge方法，使得addAge实际上是�
 * 还有一种就是利用Symbol值得唯一性将私有方法的名字命名为一个Symbol值
 * **this** 默认指向类的实例
 ### 静态方法(static)
-* 静态方法：不必创建实例就可以调用，一般通过类名进行调用，静态方法只能调用静态变量。所以类中定义的方法都会被实例继承，但是加上static的方法不会被实例继承，而是直接通过类调用。
+* 静态方法：加上static的方法不会被实例继承，而是直接通过类调用。
 ```
 class Person{
 	static sayName(){
