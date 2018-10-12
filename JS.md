@@ -173,14 +173,113 @@ function add(){
 * toString(): 返回的是字符串，如果是对象调用，返回的是“[object Object]”
 
 ## typeOf 和 instanceOf
+
 # 对象序列化
 
 # 深拷贝和浅拷贝
 
 # 数组扁平化
+* 1.递归循环
+```
+function flatten(arr){
+  var res = [];
+  for(var i=0;i<arr.length;i++){
+    if(Array.isArray(arr[i]))
+      res = res.concat(flatten(arr[i]));
+    else
+      res.push(arr[i]);
+  }
+  return res;
+}
+var arr = [1,2,[3,4,[5,6]]];
+console.log(flatten(arr));
+```
+* 2.reduce
+```
+function flatten(arr){
+  return arr.reduce(function(prev,temp){
+    return prev.concat(Array.isArray(temp)?flatten(temp):temp);
+  },[]);
+}
+var arr = [1,2,[3,4,[5,6]]];
+console.log(flatten(arr));
+```
+* 3.只要内部有数组就用扩展运算符展开
+```
+function flatten(arr){
+  while(arr.some(item=>Array.isArray(item))){
+    arr = [].concat(...arr);
+  }
+  return arr;
+}
+var arr = [1,2,[3,4,[5,6]]];
+console.log(flatten(arr));
+```
 
 # 数组去重
-
+* 1.使用indexOf()
+```
+function deleteRepeat(arr){
+  for(var i=0;i<arr.length;i++){
+    if(arr.indexOf(arr[i])!=i){
+      arr.splice(i,1);
+      i--;
+    }
+  }
+  return arr;
+}
+var arr = [1,1,2,1,3,4,52,4,2,4];
+console.log(deleteRepeat(arr));
+```
+* 2.使用set
+```
+function deleteRepeat(arr){
+  return Array.from(new Set(arr));
+}
+var arr = [1,1,2,1,3,4,52,4,2,4];
+console.log(deleteRepeat(arr));
+```
+* 3.使用includes
+```
+function deleteRepeat(arr){
+  var res = [];
+  for(var i=0;i<arr.length;i++){
+    if(!res.includes(arr[i])){
+      res.push(arr[i]);
+    }
+  }
+  return res;
+}
+var arr = [1,1,2,1,3,4,52,4,2,4];
+console.log(deleteRepeat(arr));
+```
+* 4.将数组排序，相邻不相等的加入
+```
+function deleteRepeat(arr){
+  var res = [];
+  arr.sort()
+  for(var i=0;i<arr.length;i++){
+    if(arr[i]!=res[res.length-1]){
+      res.push(arr[i]);
+    }
+  }
+  return res;
+}
+var arr = [1,1,2,1,3,4,52,4,2,4];
+console.log(deleteRepeat(arr));
+```
+* 5.使用forEach和includes判别
+```
+function deleteRepeat(arr){
+  var res = [];
+  arr.forEach(function(item){
+  	res.includes(item)?'':res.push(item);
+  })
+  return res;
+}
+var arr = [1,1,2,1,3,4,52,4,2,4];
+console.log(deleteRepeat(arr));
+```
 # 垂直居中
 
 # flex布局
