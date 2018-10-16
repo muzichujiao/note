@@ -1,3 +1,31 @@
+## setTimeout() && setInterval()
+两者调用的函数中，this指向全局变量。由于调用的代码运行在与函数完全分离的执行环境中。
+* 解决方法：
+** 用变量保存当前方法，在函数中用闭包来访问this
+** 箭头函数
+** 利用bind绑定`this.add=function(){ setTimeout(function(){console.log(this.num)}.bind(this),500); }`。
+* 使用setTimeout模拟setInterval
+```
+function _setInterval(fun,time){
+	setTimeout(function(){
+		fun();
+		setTimeout(arguments.callee,time);
+	},time);
+}
+
+```
+## 闭包解决循环调用
+```
+var divs = document.getElementsByTagName('div');
+for(var i=0;i<divs.length;i++){
+	divs[i].onclick = (function(i){
+		return function(){
+			alert(i);
+		}
+	})(i);
+}
+```
+* 由于click事件是一个异步的事件，js是但线程，对于异步事件的调用采用的是事件循环(event loop),监听点击事件，当发生点击事件时，将事件放入事件队列中，相当于响应事件。当解析完所有语句后，事件循环会从事件队列中调出事件执行。
 ## 函数节流和函数防抖
 ```
 //函数节流
