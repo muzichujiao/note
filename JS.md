@@ -1,3 +1,28 @@
+## js设置cookie
+```
+function getCookie(name){
+  var reg = new RegExp("(^|)"+name+"=([^;]*)(;$|)");
+  var arr;
+  if(arr=document.cookie.match(reg)){
+    return unescape(arr[2]);
+  }else return false;
+}
+function setCookie(name,value){
+  var exp = new Date();
+  exp.setTime(exp.getTime()+1*60*60*1000);
+  document.cookie = name+"="+escape(value)+";expires="+exp.toGMTString();
+}
+
+//删除cookie
+function deleteCookie(name){
+  var exp = new Date();
+  exp.setTime(exp.getTime()-1);
+  var val = getCookie(name);
+  if(val != null){
+    document.cookie = name+"="+val+";expires="+exp.toGMTString();
+  }
+}
+```
 ## setTimeout() && setInterval()
 两者调用的函数中，this指向全局变量。由于调用的代码运行在与函数完全分离的执行环境中。
 * 解决方法：
@@ -415,5 +440,9 @@ console.log(istrue); // true
 # JS闭包
 
 # JS内存泄漏
+
+# 判断变量为数组 
+* Object.prototype.toString.call(a)  === '[object Array]'//true  Object.prototype.toString.call(b)  === '[object Array]'//false
+* Array.isArray()
 
 
