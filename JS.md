@@ -1,28 +1,4 @@
-## js设置cookie
-```
-function getCookie(name){
-  var reg = new RegExp("(^|)"+name+"=([^;]*)(;$|)");
-  var arr;
-  if(arr=document.cookie.match(reg)){
-    return unescape(arr[2]);
-  }else return false;
-}
-function setCookie(name,value){
-  var exp = new Date();
-  exp.setTime(exp.getTime()+1*60*60*1000);
-  document.cookie = name+"="+escape(value)+";expires="+exp.toGMTString();
-}
 
-//删除cookie
-function deleteCookie(name){
-  var exp = new Date();
-  exp.setTime(exp.getTime()-1);
-  var val = getCookie(name);
-  if(val != null){
-    document.cookie = name+"="+val+";expires="+exp.toGMTString();
-  }
-}
-```
 ## setTimeout() && setInterval()
 两者调用的函数中，this指向全局变量。由于调用的代码运行在与函数完全分离的执行环境中。
 * 解决方法：
@@ -39,18 +15,7 @@ function _setInterval(fun,time){
 }
 
 ```
-## 闭包解决循环调用
-```
-var divs = document.getElementsByTagName('div');
-for(var i=0;i<divs.length;i++){
-	divs[i].onclick = (function(i){
-		return function(){
-			alert(i);
-		}
-	})(i);
-}
-```
-* 由于click事件是一个异步的事件，js是但线程，对于异步事件的调用采用的是事件循环(event loop),监听点击事件，当发生点击事件时，将事件放入事件队列中，相当于响应事件。当解析完所有语句后，事件循环会从事件队列中调出事件执行。
+
 ## 函数节流和函数防抖
 ```
 //函数节流
